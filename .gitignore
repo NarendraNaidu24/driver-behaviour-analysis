@@ -1,0 +1,57 @@
+# =============================================================================
+# Git Ignore Configuration - Driver Behaviour Analysis System
+# =============================================================================
+
+# Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+
+# Python Cache & Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Testing & Diagnostics
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Heavy Training Dumps & Raw Datasets (Do not push to Git)
+yawdd_frames/
+misclassified_yawning_samples/
+results/
+
+# Temporary & Runtime Generated Video Files
+*.mp4
+*.avi
+*.mkv
+*.mov
+!demo_clips/*.mp4
+demo_clips/_*
+demo_clips/baseline_static_output.mp4
+demo_clips/predicted_output.mp4
+demo_clips/proposed_temporal_output.mp4
+
+# OS and Editor Artifacts
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+*.swo
+*.log
+
+# Model checkpoints and generated model artifacts
+checkpoints/
+
+# Demo videos (keep the folder documented separately)
+demo_clips/*.mp4
+
+# Local secrets
+.env
+.env.*
+!.env.example

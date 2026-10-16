@@ -1,0 +1,85 @@
+# Unified Driver Behavior Taxonomy
+# ----------------------------------
+# Every raw dataset's original labels get mapped into these shared classes
+# before training. This file is the single source of truth for that mapping.
+
+# tasks: image-based tasks, handled by the shared CNN (MultiTaskDriverModel)
+tasks:
+  distraction:
+    classes:
+      - normal_driving
+      - texting
+      - phone_call
+      - eating_drinking
+      - reaching_behind
+      - talking_to_passenger
+      - adjusting_radio_or_console
+      - other_distraction
+
+  drowsiness:
+    classes:
+      - alert
+      - mild_fatigue
+      - drowsy
+      - microsleep_yawning
+
+# sensor_tasks: sensor-based tasks (accelerometer/GPS-derived features),
+# handled by a separate small model, not the image CNN. Aggressive
+# driving is fundamentally a motion/dynamics behavior that a single
+# dashcam frame can't reliably show (see project notes), so it's
+# modeled from UAH-DriveSet's windowed driving-behavior scores instead.
+sensor_tasks:
+  aggression:
+    classes:
+      - normal
+      - aggressive
+    feature_columns:
+      - score_accel
+      - score_brake
+      - score_turn
+      - score_weave
+      - score_drift
+      - score_overspeed
+      - score_carfollow
+
+# ---------------------------------------------------------------
+# Per-dataset label mapping: raw_label -> unified_label
+# ---------------------------------------------------------------
+dataset_mappings:
+
+  state_farm:
+    task: distraction
+    mapping:
+      c0: normal_driving
+      c1: texting
+      c2: phone_call
+      c3: texting
+      c4: phone_call
+      c5: adjusting_radio_or_console
+      c6: eating_drinking
+      c7: reaching_behind
+      c8: other_distraction
+      c9: talking_to_passenger
+
+  yawdd:
+    task: drowsiness
+    mapping:
+      normal: alert
+      talking: alert
+      yawning: microsleep_yawning
+
+  dmd_distraction:
+    task: distraction
+    mapping:
+      safe_drive: normal_driving
+      radio: adjusting_radio_or_console
+      drinking: eating_drinking
+      reach_side: reaching_behind
+      reach_backseat: reaching_behind
+      talking_to_passenger: talking_to_passenger
+      hair_and_makeup: other_distraction
+      phonecall_right: phone_call
+      phonecall_left: phone_call
+      texting_right: texting
+      texting_left: texting
+      unclassified: other_distraction
